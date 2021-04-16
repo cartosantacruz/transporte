@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>SICPRO</title>
+    </head>
+    <body>
+
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.wms.js"></script>
+        <script src="data/TerminalesdeOmnibus_1.js"></script>
+        <script src="data/DelegacionesdeTransporte_2.js"></script>
+        <script src="data/AerdromosyAeropuertos_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-51.75739925,-74.1055073],[-46.30923275,-64.6620187]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https:sepe" target="_blank">Provincia de Santa Cruz- SITU</a>');
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+
+
+
+
+
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+
+var title = L.control();
+    title.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info');
+    div.innerHTML +=
+    '<h2>Subsecretaría de Transporte</h2>Sistema Integrado de Conectividad Provincial';
+    return div;
+    
+
+
+
+    };
+    title.addTo(map);
+
+
+        var overlay_CapaBase_0 = L.WMS.layer("https://wms.ign.gob.ar/geoserver/wms", "capabaseargenmap", {
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            identify: false,
+        });
+        map.addLayer(overlay_CapaBase_0);
+        function pop_TerminalesdeOmnibus_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>localidad</strong><br />' + (feature.properties['localidad'] !== null ? Autolinker.link(String(feature.properties['localidad'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>domicilio</strong><br />' + (feature.properties['domicilio'] !== null ? Autolinker.link(String(feature.properties['domicilio'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">telefono</th>\
+                        <td>' + (feature.properties['telefono'] !== null ? Autolinker.link(String(feature.properties['telefono'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>latitudy</strong><br />' + (feature.properties['latitudy'] !== null ? Autolinker.link(String(feature.properties['latitudy'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>longitudx</strong><br />' + (feature.properties['longitudx'] !== null ? Autolinker.link(String(feature.properties['longitudx'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TerminalesdeOmnibus_1_0() {
+            return {
+                pane: 'pane_TerminalesdeOmnibus_1',
+                shape: 'square',
+                radius: 5.6,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(243,0,255,0.894117647059)',
+            }
+        }
+        map.createPane('pane_TerminalesdeOmnibus_1');
+        map.getPane('pane_TerminalesdeOmnibus_1').style.zIndex = 401;
+        map.getPane('pane_TerminalesdeOmnibus_1').style['mix-blend-mode'] = 'normal';
+        var layer_TerminalesdeOmnibus_1 = new L.geoJson(json_TerminalesdeOmnibus_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_TerminalesdeOmnibus_1',
+            onEachFeature: pop_TerminalesdeOmnibus_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_TerminalesdeOmnibus_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_TerminalesdeOmnibus_1);
+        function pop_DelegacionesdeTransporte_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>localidad</strong><br />' + (feature.properties['localidad'] !== null ? Autolinker.link(String(feature.properties['localidad'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>domicilio</strong><br />' + (feature.properties['domicilio'] !== null ? Autolinker.link(String(feature.properties['domicilio'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>latitudx</strong><br />' + (feature.properties['latitudx'] !== null ? Autolinker.link(String(feature.properties['latitudx'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>longitudy</strong><br />' + (feature.properties['longitudy'] !== null ? Autolinker.link(String(feature.properties['longitudy'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">telefono</th>\
+                        <td>' + (feature.properties['telefono'] !== null ? Autolinker.link(String(feature.properties['telefono'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DelegacionesdeTransporte_2_0() {
+            return {
+                pane: 'pane_DelegacionesdeTransporte_2',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(46,227,25,1.0)',
+            }
+        }
+        map.createPane('pane_DelegacionesdeTransporte_2');
+        map.getPane('pane_DelegacionesdeTransporte_2').style.zIndex = 402;
+        map.getPane('pane_DelegacionesdeTransporte_2').style['mix-blend-mode'] = 'normal';
+        var layer_DelegacionesdeTransporte_2 = new L.geoJson(json_DelegacionesdeTransporte_2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_DelegacionesdeTransporte_2',
+            onEachFeature: pop_DelegacionesdeTransporte_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_DelegacionesdeTransporte_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_DelegacionesdeTransporte_2);
+        function pop_AerdromosyAeropuertos_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>nombre</strong><br />' + (feature.properties['nombre'] !== null ? Autolinker.link(String(feature.properties['nombre'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>localidad</strong><br />' + (feature.properties['localidad'] !== null ? Autolinker.link(String(feature.properties['localidad'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>jefe_aerop</strong><br />' + (feature.properties['jefe_aerop'] !== null ? Autolinker.link(String(feature.properties['jefe_aerop'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">m_pista</th>\
+                        <td>' + (feature.properties['m_pista'] !== null ? Autolinker.link(String(feature.properties['m_pista'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>latitud</strong><br />' + (feature.properties['latitud'] !== null ? Autolinker.link(String(feature.properties['latitud'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>longitud</strong><br />' + (feature.properties['longitud'] !== null ? Autolinker.link(String(feature.properties['longitud'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">superf_pis</th>\
+                        <td>' + (feature.properties['superf_pis'] !== null ? Autolinker.link(String(feature.properties['superf_pis'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>tipos_avio</strong><br />' + (feature.properties['tipos_avio'] !== null ? Autolinker.link(String(feature.properties['tipos_avio'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_AerdromosyAeropuertos_3_0() {
+            return {
+                pane: 'pane_AerdromosyAeropuertos_3',
+                shape: 'triangle',
+                radius: 7.6,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,128,189,1.0)',
+            }
+        }
+        map.createPane('pane_AerdromosyAeropuertos_3');
+        map.getPane('pane_AerdromosyAeropuertos_3').style.zIndex = 403;
+        map.getPane('pane_AerdromosyAeropuertos_3').style['mix-blend-mode'] = 'normal';
+        var layer_AerdromosyAeropuertos_3 = new L.geoJson(json_AerdromosyAeropuertos_3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_AerdromosyAeropuertos_3',
+            onEachFeature: pop_AerdromosyAeropuertos_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_AerdromosyAeropuertos_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_AerdromosyAeropuertos_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/AerdromosyAeropuertos_3.png" /> Aeródromos y Aeropuertos': layer_AerdromosyAeropuertos_3,'<img src="legend/DelegacionesdeTransporte_2.png" /> Delegaciones de Transporte': layer_DelegacionesdeTransporte_2,'<img src="legend/TerminalesdeOmnibus_1.png" /> Terminales de Omnibus': layer_TerminalesdeOmnibus_1,"Capa Base": overlay_CapaBase_0,}).addTo(map);
+        setBounds();
+
+
+
+        L.Control.Watermark = L.Control.extend({
+    onAdd: function(map) {
+        var img = L.DomUtil.create('img');
+
+        img.src = "legend/sicpro.png";
+        img.style.width = '200px';
+
+        return img;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+});
+
+L.control.watermark = function(opts) {
+    return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'bottomleft' }).addTo(map);
+
+
+
+
+        </script>
+    </body>
+</html>
